@@ -31,7 +31,16 @@ const Login = () => {
             setError('Invalid Email or Password')
             return
         }
-        router.push('/dashboard')
+        
+        const sessionRes=await fetch('/api/auth/session')
+        const session=await sessionRes.json()
+
+        if(session?.user?.role === 'admin'){
+            console.log('SESSION ROLE:',session.user.role)
+            router.push('/admin')
+        }else{
+            router.push('/dashboard')
+        }
     }
     return (
         <>

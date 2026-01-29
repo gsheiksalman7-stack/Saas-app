@@ -6,10 +6,6 @@ export default async function DashboardLayout({ children, }: { children: React.R
 
     if(!session) redirect('/login')
 
-    if (session.user.role === 'admin'){
-        redirect('/admin')
-    }
-
     return <>{children}</>
 
 }
