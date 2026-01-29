@@ -204,3 +204,15 @@ redirect()
 - your JWT/session callbacks attach role
 
 - your layouts call await auth()
+
+# why not two seperate components instead of modifying same components dynamically
+
+Creating:
+
+AdminSidebarNav.tsx
+
+UserSidebarNav.tsx
+
+❌ Duplicates markup
+❌ Easy to forget updating one
+❌ Painful when adding/removing routes
