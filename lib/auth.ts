@@ -2,7 +2,7 @@ import Credentials from "next-auth/providers/credentials";
 import { connectDB } from "./db";
 import bcrypt from "bcryptjs";
 import { User } from "@/models/User";
-import { NextAuthConfig } from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 
 type Role = 'user' | 'admin'
 
@@ -15,22 +15,37 @@ export const authOptions: NextAuthConfig = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) return null
+                console.log('CREDENTIALS:', credentials)
 
-                const email = credentials.email as string
-                const password = credentials.password as string
+                const email = credentials?.email?.toString().trim().toLowerCase()
+                const password = credentials?.password?.toString()
 
-                if (!email || !password) return null
+                if (!email || !password){
+                    console.log('Missing email or password')
+                    return null
+                } 
 
                 await connectDB()
+                console.log('DB connected')
 
                 const user = await User.findOne({ email })
+                console.log('USER FOUND:', user)
 
-                if (!user) return null
+                if (!user) {
+                    console.log('User not found')
+                    return null
+                }
+
 
                 const isValid = await bcrypt.compare(password, user.password)
+                console.log('PASSWORD VALUE:', isValid)
 
-                if (!isValid) return null
+                if (!isValid){
+                    console.log('Password mismatch')
+                return null
+                }
+
+                console.log('LOGIN SUCCESS')
 
                 return {
                     id: user._id.toString(),
@@ -67,3 +82,5 @@ export const authOptions: NextAuthConfig = {
         signIn: '/login',
     }
 }
+
+export const { auth, handlers } = NextAuth(authOptions)

@@ -1,17 +1,45 @@
+'use client'
+import PageLoader from '@/components/ui/pageLoader'
 import { IMAGES } from '@/constants/images'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 const Login = () => {
+    const router = useRouter()
+    const [form, setForm] = useState({ email: '', password: '' })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setError('')
+        setLoading(true)
+
+        const res = await signIn('credentials', {
+            email: form.email,
+            password: form.password,
+            redirect: false
+        })
+        setLoading(false)
+
+        if (!res || res.error) {
+            setError('Invalid Email or Password')
+            return
+        }
+        router.push('/dashboard')
+    }
     return (
         <>
             <div className="fixed inset-0 -z-10">
                 <Image src={IMAGES.HOMEPAGE_IMG} alt="Background" fill className="object-cover" priority />
             </div>
             <div className="min-h-screen mb-6 md:mb-6 py-8 flex items-center justify-center bg-transparent px-4">
+                {loading && <PageLoader text='Signing in...' />}
                 {/* Card */}
                 <div className="w-full max-w-md rounded-3xl bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-8">
                     {/* Header Icon */}
@@ -31,27 +59,33 @@ const Login = () => {
                         Welcome back! Please enter your details.
                     </p>
                     {/* Form */}
-                    <form className="mt-6 space-y-4">
+                    <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
                         {/* Email */}
                         <div>
                             <label className="sr-only">Email</label>
                             <div className="relative">
-                                <input type="email" placeholder="Email" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                                <input type="email" placeholder="Email" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, email: e.target.value })} />
                             </div>
                         </div>
                         {/* Password */}
                         <div>
                             <label className="sr-only">Password</label>
                             <div className="relative">
-                                <input type="password" placeholder="Password" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                                <input type="password" placeholder="Password" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, password: e.target.value })} />
                                 <Link href="/forgot-password" className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-indigo-500 hover:underline">
                                     Forgot password?
                                 </Link>
                             </div>
                         </div>
+                        {error && (
+                            <p className="text-sm text-red-600 text-center">{error}</p>
+                        )}
                         {/* Sign in button */}
-                        <button type="submit" className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition cursor-pointer">
-                            Sign in
+                        <button type="submit" disabled={loading} className={`w-full rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition cursor-pointer ${loading
+                            ? "bg-indigo-400 cursor-not-allowed"
+                            : "bg-indigo-600 hover:bg-indigo-700"
+                            }`}>
+                            {loading ? 'Signing in...' : 'Sign in'}
                         </button>
                     </form>
                     {/* Divider */}

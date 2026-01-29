@@ -39,7 +39,7 @@ const SignUp = () => {
                 <Image src={IMAGES.HOMEPAGE_IMG} alt="Background" fill className="object-cover" priority />
             </div>
             <div className="min-h-screen flex items-center justify-center bg-transparent mb-6 md:mb-0 px-4">
-                {loading && <PageLoader />}
+                {loading && <PageLoader text='Creating your account...' />}
                 {/* Card */}
                 <div className="w-full max-w-md rounded-3xl bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-8 my-4">
                     {/* Header Icon */}
@@ -73,7 +73,7 @@ const SignUp = () => {
                             <input type="password" placeholder="Password" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, password: e.target.value })} />
                         </div>
                         {/* Signup button */}
-                        <button type="submit" className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition">
+                        <button type="submit" className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition cursor-pointer">
                             Create account
                         </button>
                     </form>

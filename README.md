@@ -110,3 +110,97 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 └── types/
     └── index.ts
 
+# why client side RBAC is not best?
+
+🚫 Page still renders briefly (flash of protected content)
+
+🚫 User can disable JS and see content
+
+🚫 API routes still accessible unless separately protected
+
+🚫 Security logic duplicated everywhere
+
+🚫 Easy to forget one page
+
+# why layout level RBAC is best?
+
+🔒 Server-side protection
+
+🧱 Blocks access before HTML is sent
+
+🚫 No content flash
+
+♻️ One place → all child routes protected
+
+🧠 Cleaner mental model
+
+🚀 Scales to big apps
+
+# when you should still use client checks?
+
+- Hide admin menu links
+
+- Show “Access denied” message
+
+- Optimistic redirects
+
+- Conditional UI
+
+# what not to do
+
+❌ Protect routes only in client components
+
+❌ Put RBAC in every page
+
+❌ Trust useSession() for security
+
+❌ Skip API route protection
+
+# final review
+
+👉 Use SERVER LAYOUTS for RBAC
+👉 Use CLIENT COMPONENTS only for UX
+
+🟢 Best: RBAC in layouts (server)
+
+🟡 Optional: client checks for UI
+
+🔴 Never: client-only protection
+
+# Auth js workflow
+
+- authorize() → returns user + role
+
+- jwt() → stores role in token
+
+- session() → exposes role to app
+
+- auth() → reads session on the server
+
+MongoDB (role)
+   ↓
+authorize()
+   ↓
+JWT token (role)
+   ↓
+session.user.role
+   ↓
+auth() in layouts
+   ↓
+redirect()
+
+# common mistakes
+
+❌ Not exporting auth
+❌ Using getServerSession (v4 only)
+❌ Putting RBAC in client components
+❌ Checking role in pages instead of layouts
+❌ Forgetting to attach role in jwt callback
+
+# Final review
+
+- your auth.ts exports { auth, handlers }
+
+- your JWT/session callbacks attach role
+
+- your layouts call await auth()
