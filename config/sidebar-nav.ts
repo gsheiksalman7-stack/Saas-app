@@ -13,7 +13,6 @@ export const userNav: NavItem[] = [
 
 export const adminNav: NavItem[] = [
   { href: "/admin", label: "Overview", icon: 'Home', },
-  { href: "/admin/users", label: "Users", icon: 'Users', },
   { href: "/admin/usage", label: "API Usage", icon: 'BarChart2', },
   { href: "/admin/billing", label: "Billing", icon: 'CreditCard', },
   { href: "/admin/settings", label: "Admin Settings", icon: 'Shield', },
