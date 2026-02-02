@@ -1,16 +1,18 @@
 "use client";
 import Link from "next/link";
 import { LogOut, Menu, X } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Image from "next/image";
-import { AVATAR } from "@/constants/images";
 import { icons, NavItem } from "@/config/sidebar-nav";
+import Avatar from "../ui/avatar";
 
 export default function DashboardSidebar({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession()
+
+  console.log('SESSION:', session)
 
   return (
     <>
@@ -40,11 +42,16 @@ export default function DashboardSidebar({ items }: { items: NavItem[] }) {
 
         {/* User */}
         <div className="px-6 py-4 border-b border-slate-800">
-          <div className="relative h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/10">
-            <Image src={AVATAR.AVATAR_1} alt="John Doe" fill className="object-cover" />
+          <div className="relative mb-2 h-10 w-10 ring-2 ring-white/10 rounded-full overflow-hidden">
+            <Avatar
+              image={session?.user?.image}
+              name={session?.user?.name}
+              email={session?.user?.email}
+              size={40}
+            />
           </div>
-          <p className="text-sm font-medium text-white">John Doe</p>
-          <p className="text-xs text-slate-400">john@example.com</p>
+          <p className="mb-1text-sm font-medium text-white">{session?.user?.name}</p>
+          <p className="text-xs text-slate-400">{session?.user?.email}</p>
         </div>
 
         {/* Nav */}
@@ -70,7 +77,7 @@ export default function DashboardSidebar({ items }: { items: NavItem[] }) {
             Logout
           </button>
         </div>
-      </aside>
+      </aside >
     </>
   );
 }

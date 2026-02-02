@@ -9,15 +9,29 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        default:""
+    },
+    image: {
+        type: String,
+        default: ""
     },
     role: {
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
     } as const,
+    provider: {
+        type: String, // google | github | credentials
+        default: "credentials",
+    },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpiry: {
+        type: Number,
+    },
 },
     { timestamps: true }
 )
 
-export const User=models.User||mongoose.model('User',UserSchema)
+export const User = models.User || mongoose.model('User', UserSchema)

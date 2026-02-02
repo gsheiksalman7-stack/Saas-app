@@ -1,4 +1,4 @@
-export async function signupUser(data: { name: string, email: string, password: string }) {
+export async function signupUser(data: { name: string, email: string, password: string, image:string }) {
     try {
         const res = await fetch('/api/signup', {
             method: 'POST',

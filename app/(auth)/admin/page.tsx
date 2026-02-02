@@ -24,16 +24,6 @@ export default function DashboardPage() {
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-3.5 border-b bg-white">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-
-        <div className="flex items-center gap-5">
-          <Search className="h-5 w-5 text-gray-500" />
-          <Bell className="h-5 w-5 text-gray-500" />
-          <img
-            src="https://i.pravatar.cc/40"
-            className="h-9 w-9 rounded-full"
-            alt="avatar"
-          />
-        </div>
       </header>
 
       <main className="p-4 md:p-8 space-y-8">

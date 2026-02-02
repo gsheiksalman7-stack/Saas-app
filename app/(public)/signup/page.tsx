@@ -2,6 +2,7 @@
 import PageLoader from '@/components/ui/pageLoader'
 import { IMAGES } from '@/constants/images'
 import { signupUser } from '@/lib/signupActions'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -15,6 +16,7 @@ const SignUp = () => {
         name: '',
         email: '',
         password: '',
+        image:''
     })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -85,17 +87,13 @@ const SignUp = () => {
                     </div>
                     {/* OAuth Buttons */}
                     <div className="space-y-3">
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
+                        <button onClick={()=>signIn('google',{callbackUrl:'/dashboard'})} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
                             <FcGoogle size={20} />
                             Continue with Google
                         </button>
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
+                        <button onClick={()=>signIn('github',{callbackUrl:'/dashboard'})} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
                             <FaGithub size={20} />
                             Continue with GitHub
-                        </button>
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
-                            <FaLinkedin size={20} className="text-blue-600" />
-                            Continue with LinkedIn
                         </button>
                     </div>
                     {/* Footer */}

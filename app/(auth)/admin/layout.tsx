@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
     return (
         <div className="min-h-screen bg-linear-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e9eef5] dark:from-[#0b1220] dark:via-[#0f172a] dark:to-[#020617]">
-            <DashboardSidebar items={isAdmin ? adminNav : userNav} />
+            <DashboardSidebar items={isAdmin ? adminNav : userNav} session={session} />
             <main className='flex-1 p-0 md:ml-64'>{children}</main>
             <div className="flex-1 p-4 md:p-0 md:ml-64"><Footer /></div>
         </div>

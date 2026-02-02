@@ -31,14 +31,14 @@ const Login = () => {
             setError('Invalid Email or Password')
             return
         }
-        
-        const sessionRes=await fetch('/api/auth/session')
-        const session=await sessionRes.json()
 
-        if(session?.user?.role === 'admin'){
-            console.log('SESSION ROLE:',session.user.role)
+        const sessionRes = await fetch('/api/auth/session')
+        const session = await sessionRes.json()
+
+        if (session?.user?.role === 'admin') {
+            console.log('SESSION ROLE:', session.user.role)
             router.push('/admin')
-        }else{
+        } else {
             router.push('/dashboard')
         }
     }
@@ -104,20 +104,16 @@ const Login = () => {
                         <div className="flex-1 h-px bg-slate-200" />
                     </div>
                     {/* OAuth Buttons */}
-                    <div className="space-y-3">
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
-                            <FcGoogle size={20} />
-                            Continue with Google
-                        </button>
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
-                            <FaGithub size={20} />
-                            Continue with GitHub
-                        </button>
-                        <button className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
-                            <FaLinkedin size={20} className="text-blue-600" />
-                            Continue with LinkedIn
-                        </button>
-                    </div>
+                        <div className="space-y-3">
+                            <button type='submit' onClick={() => signIn('google', { callbackUrl: '/dashboard', redirect: true })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
+                                <FcGoogle size={20} />
+                                Continue with Google
+                            </button>
+                            <button type='submit' onClick={() => signIn('github', { callbackUrl: '/dashboard', redirect: true })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
+                                <FaGithub size={20} />
+                                Continue with GitHub
+                            </button>
+                        </div>
                     {/* Footer */}
                     <p className="mt-6 text-center text-sm text-slate-600">
                         Don’t have an account?{" "}
@@ -126,7 +122,7 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
