@@ -3,6 +3,28 @@ import CompareFeautures from '@/components/pricingPage/CompareFeautures'
 import { IMAGES } from '@/constants/images'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import AnimatedSectionLeft from '@/components/ui/animation-section-left'
+
+const containerVariants = {
+    hidden: {},
+    show: {
+        transition: {
+            staggerChildren: 0.25, // delay between cards
+        },
+    },
+}
+
+const itemVariants = {
+    hidden: {
+        opacity: 0,
+        y: 30, scale: 0.95
+    },
+    show: {
+        opacity: 1,
+        y: 0, scale: 1
+    },
+}
 
 const PLANS = [
     {
@@ -126,7 +148,9 @@ const Subscriptions = () => {
                     </div>
                 </div>
             </section>
-            <CompareFeautures />
+            <AnimatedSectionLeft>
+                <CompareFeautures />
+            </AnimatedSectionLeft>
         </>
     )
 }

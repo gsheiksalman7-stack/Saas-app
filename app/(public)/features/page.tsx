@@ -1,8 +1,32 @@
+'use client'
+import { motion } from 'framer-motion'
 import FreeTrial from '@/components/freeTrial'
 import Testimonials from '@/components/testimonials'
 import { IMAGES } from '@/constants/images'
 import Image from 'next/image'
 import React from 'react'
+import AnimatedSectionLeft from '@/components/ui/animation-section-left'
+import AnimatedSectionRight from '@/components/ui/animated section-right'
+
+const containerVariants = {
+    hidden: {},
+    show: {
+        transition: {
+            staggerChildren: 0.45, // delay between cards
+        },
+    },
+}
+
+const itemVariants = {
+    hidden: {
+        opacity: 0,
+        y: 30, scale: 0.95
+    },
+    show: {
+        opacity: 1,
+        y: 0, scale: 1
+    },
+}
 
 const FEATURES = [
     {
@@ -67,12 +91,28 @@ const FeaturesPage = () => {
                             Everything you need to grow and manage your business efficiently and effectively.
                         </p>
                     </div>
-                    {/* Features Grid */}
-                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <motion.div
+                        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, amount: 0.3 }}
+                    >
                         {FEATURES.map((feature) => (
-                            <div key={feature.title} className="rounded-2xl bg-white px-8 py-10 text-center shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] transition hover:-translate-y-1">
+                            <motion.div
+                                key={feature.title}
+                                variants={itemVariants}
+                                className="rounded-2xl bg-white px-8 py-10 text-center
+                 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]
+                 transition hover:-translate-y-1"
+                            >
                                 <div className="mx-auto mb-6 flex h-26 w-26 items-center justify-center rounded-xl bg-indigo-50">
-                                    <Image src={feature.image} alt={feature.title} width={106} height={106} />
+                                    <Image
+                                        src={feature.image}
+                                        alt={feature.title}
+                                        width={106}
+                                        height={106}
+                                    />
                                 </div>
                                 <h3 className="text-xl font-semibold text-slate-900">
                                     {feature.title}
@@ -80,13 +120,17 @@ const FeaturesPage = () => {
                                 <p className="mt-3 text-sm leading-relaxed text-slate-600">
                                     {feature.description}
                                 </p>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
+            <AnimatedSectionLeft>
             <Testimonials />
+            </AnimatedSectionLeft>
+            <AnimatedSectionRight>
             <FreeTrial />
+            </AnimatedSectionRight>
         </>
     )
 }

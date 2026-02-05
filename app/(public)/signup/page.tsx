@@ -1,13 +1,14 @@
 'use client'
 import PageLoader from '@/components/ui/pageLoader'
 import { IMAGES } from '@/constants/images'
+import { getPasswordStrength } from '@/lib/passwordStrength'
 import { signupUser } from '@/lib/signupActions'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 const SignUp = () => {
@@ -16,20 +17,23 @@ const SignUp = () => {
         name: '',
         email: '',
         password: '',
-        image:''
+        image: ''
     })
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    const [errors, setErrors] = useState<{ name?: string, email?: string, password?: string }>({})
+    const [passwordStrength, setPasswordStrength] = useState<{ score: number, label: "Weak" | "Medium" | "Strong" } | null>(null)
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        setError('')
+        setErrors({})
         setLoading(true)
 
         const result = await signupUser(form)
 
         if (!result.ok) {
-            setError(result.message)
+            setErrors(result.errors)
+            setLoading(false)
             return
         }
         router.push('/login')
@@ -66,14 +70,123 @@ const SignUp = () => {
                         <div>
                             <input type="text" placeholder="Username" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, name: e.target.value })} />
                         </div>
+                        {errors.name &&
+                            <p className="text-sm font-bold text-red-600 text-center mt-2">
+                                {errors.name}
+                            </p>
+                        }
                         {/* Email */}
                         <div>
                             <input type="email" placeholder="Email" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, email: e.target.value })} />
                         </div>
+                        {errors.email &&
+                            <p className="text-sm font-bold text-red-600 text-center mt-2">
+                                {errors.email}
+                            </p>
+                        }
                         {/* Password */}
-                        <div>
-                            <input type="password" placeholder="Password" className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                        <div className='relative'>
+                            <div className="flex items-center w-full rounded-xl border border-slate-200 focus-within:ring-2 focus-within:ring-indigo-500 bg-white">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    className="flex-1 bg-transparent px-4 py-3 text-sm focus:outline-none"
+                                    onChange={(e) => {
+                                        const value = e.target.value
+                                        setForm({ ...form, password: value })
+                                        setPasswordStrength(value ? getPasswordStrength(value) : null)
+                                    }}
+                                />
+                                {/* Eye icon */}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    className="text-slate-500 hover:text-slate-700">
+                                    {showPassword ? (
+                                        // Eye OFF
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.956 9.956 0 012.64-6.675M6.18 6.18A9.956 9.956 0 0112 5c5.523 0 10 4.477 10 10a9.956 9.956 0 01-4.043 8.043M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M3 3l18 18"
+                                            />
+                                        </svg>
+                                    ) : (
+                                        // Eye ON
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
+                            {passwordStrength && (
+                                <div className="mt-2">
+                                    {/* Bar */}
+                                    <div className="h-2 w-full rounded-full bg-slate-200 overflow-hidden">
+                                        <div className="h-full transition-all duration-300"
+                                            style={{
+                                                width: passwordStrength.label === "Strong"
+                                                    ? "100%"
+                                                    : passwordStrength.label === "Medium"
+                                                        ? "66%"
+                                                        : "33%",
+                                                backgroundColor:
+                                                    passwordStrength.label === "Strong"
+                                                        ? "#22c55e" // green-500
+                                                        : passwordStrength.label === "Medium"
+                                                            ? "#eab308" // yellow-500
+                                                            : "#ef4444", // red-500
+                                            }}
+                                        />
+                                    </div>
+                                    {/* Text */}
+                                    <p className="mt-1 text-xs font-medium" style={{
+                                        color:
+                                            passwordStrength.label === "Strong"
+                                                ? "#16a34a" // green-600
+                                                : passwordStrength.label === "Medium"
+                                                    ? "#ca8a04" // yellow-600
+                                                    : "#dc2626", // red-600
+                                    }}
+                                    >
+                                        Password strength: {passwordStrength.label}
+                                    </p>
+                                </div>
+                            )}
                         </div>
+                        {errors.password &&
+                            <p className="text-sm font-bold text-red-600 text-center mt-2">
+                                {errors.password}
+                            </p>
+                        }
                         {/* Signup button */}
                         <button type="submit" className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition cursor-pointer">
                             Create account
@@ -87,11 +200,11 @@ const SignUp = () => {
                     </div>
                     {/* OAuth Buttons */}
                     <div className="space-y-3">
-                        <button onClick={()=>signIn('google',{callbackUrl:'/dashboard'})} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
+                        <button onClick={() => signIn('google', { callbackUrl: '/dashboard' })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
                             <FcGoogle size={20} />
                             Continue with Google
                         </button>
-                        <button onClick={()=>signIn('github',{callbackUrl:'/dashboard'})} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
+                        <button onClick={() => signIn('github', { callbackUrl: '/dashboard' })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition">
                             <FaGithub size={20} />
                             Continue with GitHub
                         </button>
