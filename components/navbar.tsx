@@ -2,6 +2,8 @@
 import { useState } from "react"
 import Button from "./ui/button"
 import Link from "next/link"
+import { IMAGES } from "../constants/images"
+import Image from "next/image"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
@@ -11,8 +13,7 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <Link href='/' className="flex items-center ml-12 gap-2">
-                    <div className="h-8 w-8 bg-blue-600 rounded-md" />
-                    <span className="font-bold text-lg">SaaSApp</span>
+                    <Image src={IMAGES.APP_LOGO} alt='Logo' width={148} height={148}/>
                 </Link>
                 {/* Center Links */}
                 <div className="hidden md:flex items-center mx-24 gap-12 text-sm font-medium text-gray-600">

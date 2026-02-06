@@ -16,7 +16,8 @@ export const IMAGES ={
     EXPERIENCED_PNG:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1769175214/ChatGPT_Image_Jan_23_2026_06_59_26_PMiu_di3quz.png',
     CUTTING_PNG:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1769176836/ChatGPT_Image_Jan_23_2026_06_59_26_PMc_ipe9ei.png',
     SATISFACTION_PNG:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1769176836/ChatGPT_Image_Jan_23_2026_06_59_26_PMuy_qreput.png',
-    RESULTS_PNG:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1769176836/ChatGPT_Image_Jan_23_2026_06_59_26_PMyuiu_hcswfu.png'
+    RESULTS_PNG:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1769176836/ChatGPT_Image_Jan_23_2026_06_59_26_PMyuiu_hcswfu.png',
+    APP_LOGO:'https://res.cloudinary.com/duyk1c869/image/upload/f_auto,q_auto,dpr_auto,e_sharpen:60/v1770399514/ChatGPT_Image_Feb_6_2026_11_08_07_PM_ufygkp.png'
 }
 
 export const AVATAR={
