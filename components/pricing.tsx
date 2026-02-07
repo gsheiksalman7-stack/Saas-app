@@ -1,6 +1,7 @@
 'use client'
 import { Crown } from 'lucide-react'
 import React from 'react'
+import AnimatedSectionRight from './ui/animated section-right'
 
 const plans = [
     {
@@ -30,6 +31,7 @@ const Pricing = () => {
     return (
         <section className="relative bottom-25 md:bottom-0 py-0 md:py-10 bg-transparent">
             <div className="max-w-7xl mx-auto px-4 text-center">
+                <AnimatedSectionRight>
                 {/* Heading */}
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                     Pricing Plans
@@ -37,6 +39,7 @@ const Pricing = () => {
                 <p className="mt-2 text-gray-500">
                     Choose the Plan That’s Right for You
                 </p>
+                </AnimatedSectionRight>
                 {/* Cards */}
                 <div className="mt-14 grid gap-6 md:grid-cols-3">
                     {plans.map((plan, i) => (

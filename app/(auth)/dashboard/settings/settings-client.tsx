@@ -225,7 +225,7 @@ export default function UserSettingsClient({ user }: { user: User }) {
                             // 🔐 force re-login after password change
                             await signOut({ callbackUrl: "/login" })
                         }}
-                        className="mt-4 rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white"
+                        className="mt-4 rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white cursor-pointer"
                     >
                         {passwordLoading ? "Updating..." : "Update Password"}
                     </button>

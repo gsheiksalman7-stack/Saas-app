@@ -81,16 +81,18 @@ const FeaturesPage = () => {
                 </div>
                 <div className="relative mx-auto max-w-7xl px-6">
                     {/* Header */}
-                    <div className="mx-auto mb-16 max-w-3xl text-center">
-                        <h2 className="text-4xl font-extrabold tracking-tight text-slate-900">
-                            Discover the Powerful Features
-                            <br />
-                            That Drive Your Success
-                        </h2>
-                        <p className="mt-4 text-lg text-slate-600">
-                            Everything you need to grow and manage your business efficiently and effectively.
-                        </p>
-                    </div>
+                    <AnimatedSectionRight>
+                        <div className="mx-auto mb-16 max-w-3xl text-center">
+                            <h2 className="text-4xl font-extrabold tracking-tight text-slate-900">
+                                Discover the Powerful Features
+                                <br />
+                                That Drive Your Success
+                            </h2>
+                            <p className="mt-4 text-lg text-slate-600">
+                                Everything you need to grow and manage your business efficiently and effectively.
+                            </p>
+                        </div>
+                    </AnimatedSectionRight>
                     <motion.div
                         className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
                         variants={containerVariants}
@@ -126,10 +128,10 @@ const FeaturesPage = () => {
                 </div>
             </section>
             <AnimatedSectionLeft>
-            <Testimonials />
+                <Testimonials />
             </AnimatedSectionLeft>
             <AnimatedSectionRight>
-            <FreeTrial />
+                <FreeTrial />
             </AnimatedSectionRight>
         </>
     )

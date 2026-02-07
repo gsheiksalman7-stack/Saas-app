@@ -13,7 +13,7 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <Link href='/' className="flex items-center ml-12 gap-2">
-                    <Image src={IMAGES.APP_LOGO} alt='Logo' width={148} height={148}/>
+                    <Image src={IMAGES.APP_LOGO} alt='Logo' width={148} height={148} />
                 </Link>
                 {/* Center Links */}
                 <div className="hidden md:flex items-center mx-24 gap-12 text-sm font-medium text-gray-600">
@@ -34,13 +34,13 @@ export default function Navbar() {
             {open && (
                 <div className="md:hidden absolute top-full left-0 w-full bg-white border-t shadow-md">
                     <div className="flex justify-center items-center flex-col px-6 py-4 space-y-3 text-sm font-medium w-full ">
-                        <Link href='/features' onClick={()=>setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Features</Link>
-                        <Link href='/subscriptions' onClick={()=>setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Pricing</Link>
-                        <a className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">About</a>
-                        <a href="/login" className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Login</a>
-                        <a href="/register" className="bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-md w-screen">
+                        <Link href='/features' onClick={() => setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Features</Link>
+                        <Link href='/subscriptions' onClick={() => setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Pricing</Link>
+                        <Link href='/about' onClick={() => setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">About</Link>
+                        <Link href="/login" onClick={() => setOpen(false)} className="hover:text-black text-center w-screen hover:bg-gray-300 p-2">Login</Link>
+                        <Link href="/signup" onClick={() => setOpen(false)} className="bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-md w-screen">
                             Get Started
-                        </a>
+                        </Link>
                     </div>
                 </div>
             )}

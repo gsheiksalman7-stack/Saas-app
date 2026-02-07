@@ -73,14 +73,8 @@ export default function ApiUsagePage() {
     return (
         <div className="min-h-screen bg-transparent">
             {/* Header */}
-            <header className="flex items-center justify-between px-8 py-3.5 border-b bg-white">
+            <header className="flex items-center justify-between px-8 py-3.5 border-b bg-transparent">
                 <h1 className="text-2xl font-semibold">API Usage</h1>
-
-                <div className="flex items-center gap-5">
-                    <Search className="h-5 w-5 text-gray-500" />
-                    <Bell className="h-5 w-5 text-gray-500" />
-                    <img src="https://i.pravatar.cc/40" className="h-9 w-9 rounded-full" alt="avatar" />
-                </div>
             </header>
 
             <main className="p-4 space-y-8">

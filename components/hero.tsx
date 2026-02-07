@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import Button from './ui/button'
 import { FaPlayCircle } from 'react-icons/fa'
+import AnimatedSectionRight from './ui/animated section-right'
 
 const Hero = () => {
     return (
@@ -20,12 +21,14 @@ const Hero = () => {
             <div className="absolute inset-0 z-10 flex items-start pt-8 text-center md:text-left md:pt-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-26">
                     <div className="max-w-md md:max-w-xl text-white m-0 md:m-4">
+                        <AnimatedSectionRight>
                         <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-4xl font-bold leading-tight mb-0 md:mb-6">
                             Grow your Business with our Powerful SaaS Platform
                         </h1>
                         <p className="mt-3 text-sm sm:text-base md:text-lg text-gray-200 mb-0 md:mb-6">
                             All-in-one solution to boost your productivity and streamline your workflow.
                         </p>
+                        </AnimatedSectionRight>
                         <div className='relative mt-4 md:mt-4'>
                             <Button />
                             <button

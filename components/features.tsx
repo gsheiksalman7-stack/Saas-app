@@ -2,6 +2,7 @@
 import { IMAGES } from '@/constants/images'
 import Image from 'next/image'
 import React from 'react'
+import AnimatedSectionLeft from './ui/animation-section-left'
 
 const Features = () => {
     const features = [
@@ -11,12 +12,12 @@ const Features = () => {
             description: 'Track your performance with in-depth analytics.',
         },
         {
-            image:IMAGES.COLLAB_PNG,
+            image: IMAGES.COLLAB_PNG,
             title: 'Collaborate Easily',
             description: 'Work together with your team in real-time.',
         },
         {
-            image:IMAGES.AUTOMATE_PNG,
+            image: IMAGES.AUTOMATE_PNG,
             title: 'Automate Tasks',
             description: 'Save time with powerful automation tools.',
         },
@@ -27,12 +28,12 @@ const Features = () => {
             <div className="max-w-7xl mx-auto px-4">
                 {/* Heading */}
                 <div className="text-center mb-0 md:mb-10">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-                        Key Features
-                    </h2>
-                    <p className="mt-2 mb-4 md:mb-0 text-gray-500">
-                        Everything you need in one platform
-                    </p>
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                            Key Features
+                        </h2>
+                        <p className="mt-2 mb-4 md:mb-0 text-gray-500">
+                            Everything you need in one platform
+                        </p>
                 </div>
                 {/* Cards */}
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
