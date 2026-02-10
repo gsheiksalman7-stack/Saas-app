@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 const Login = () => {
@@ -105,11 +105,11 @@ const Login = () => {
                     </div>
                     {/* OAuth Buttons */}
                         <div className="space-y-3">
-                            <button type='submit' onClick={() => signIn('google', { callbackUrl: '/dashboard', redirect: true })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
+                            <button type='button' onClick={() => signIn('google',{ callbackUrl: '/dashboard' })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
                                 <FcGoogle size={20} />
                                 Continue with Google
                             </button>
-                            <button type='submit' onClick={() => signIn('github', { callbackUrl: '/dashboard', redirect: true })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
+                            <button type='button' onClick={() => signIn('github',{ callbackUrl: '/dashboard' })} className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 py-3 text-sm hover:bg-slate-50 transition cursor-pointer">
                                 <FaGithub size={20} />
                                 Continue with GitHub
                             </button>

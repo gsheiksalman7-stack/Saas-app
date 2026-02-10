@@ -1,6 +1,6 @@
 "use client";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Bell, Search, Chrome, Facebook, Twitter, Linkedin, } from "lucide-react";
+import { Chrome, Facebook, Twitter, Linkedin, } from "lucide-react";
 
 const salesData = [
   { name: "Apr 1", thisMonth: 800, lastMonth: 500 },

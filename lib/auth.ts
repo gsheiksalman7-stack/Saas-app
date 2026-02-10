@@ -65,9 +65,9 @@ export const authOptions: NextAuthConfig = {
         GitHub({
             clientId: process.env.GITHUB_CLIENT_ID!,
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-            authorization:{
-                params:{
-                    scope:"read:user user:email"
+            authorization: {
+                params: {
+                    scope: "read:user user:email"
                 }
             }
         })
@@ -91,12 +91,12 @@ export const authOptions: NextAuthConfig = {
 
             await connectDB();
 
-            const existingUser = await User.findOne({ email: user.email });
+            const existingUser = await User.findOne({ email });
 
             if (!existingUser) {
                 await User.create({
                     name: user.name,
-                    email: user.email,
+                    email,
                     image: user.image || "",
                     role: "user",
                     provider: account?.provider, // google or github
@@ -106,20 +106,16 @@ export const authOptions: NextAuthConfig = {
             return true;
         },
 
-        async redirect({ url, baseUrl }) {
-            if (url.startsWith("/")) return `${baseUrl}${url}`;
-            return `${baseUrl}/dashboard`;
-        },
-
         async jwt({ token, user, trigger, session }) {
-            if (user) {
-                token.role = user.role as Role
-                token.id = user.id
-                token.image = user.image
-                token.name = user.name
-            }
+            // if (user) {
+            //     token.role = user.role as Role
+            //     token.id = user.id
+            //     token.image = user.image
+            //     token.name = user.name
+            // }
 
             if (user?.email) {
+                await connectDB()
                 const dbUser = await User.findOne({ email: user.email });
 
                 if (dbUser) {
@@ -144,7 +140,7 @@ export const authOptions: NextAuthConfig = {
 
         async session({ session, token }) {
             if (session.user) {
-                session.user.role = token.role as Role
+                session.user.role = token.role as "user" | "admin"
                 session.user.id = token.id as string
                 session.user.image = token.image as string
                 session.user.name = token.name as string
@@ -152,9 +148,6 @@ export const authOptions: NextAuthConfig = {
             return session
         }
     },
-    pages: {
-        signIn: '/login',
-    }
 }
 
 
