@@ -7,7 +7,7 @@ export const runtime = "nodejs"
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params
     console.log("DELETE USER ID:", id)
@@ -27,7 +27,7 @@ export async function DELETE(
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params
     console.log("PATCH USER ID:", id)
