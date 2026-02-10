@@ -5,6 +5,8 @@ import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
 import { transporter } from "@/lib/mail"
 
+export const runtime = "nodejs"
+
 export async function POST(req: Request) {
     await connectDB()
     const { email } = await req.json()

@@ -4,6 +4,8 @@ import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
 import bcrypt from "bcryptjs"
 
+export const runtime = "nodejs"
+
 export async function PATCH(req: Request) {
   const session = await auth()
 
