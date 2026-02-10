@@ -1,13 +1,15 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
 
+export const runtime = "nodejs"
+
 export async function DELETE(
-    req: Request,
+    req: NextRequest,
     { params }: { params: { id: string } }
 ) {
-    const { id } =await params
+    const { id } = await params
     console.log("DELETE USER ID:", id)
     const session = await auth()
     console.log("SESSION:", session)
@@ -24,10 +26,10 @@ export async function DELETE(
 }
 
 export async function PATCH(
-    req: Request,
+    req: NextRequest,
     { params }: { params: { id: string } }
 ) {
-    const { id } =await params
+    const { id } = await params
     console.log("PATCH USER ID:", id)
     const session = await auth()
     console.log("SESSION:", session)
