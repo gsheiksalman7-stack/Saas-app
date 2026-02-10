@@ -5,9 +5,9 @@ import { User } from "@/models/User"
 
 export async function DELETE(
     req: Request,
-    context: { params: Promise<{ id: string }> }
+    { params }: { params: { id: string } }
 ) {
-    const { id } = await context.params
+    const { id } =await params
     console.log("DELETE USER ID:", id)
     const session = await auth()
     console.log("SESSION:", session)
@@ -25,9 +25,9 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    context: { params: Promise<{ id: string }> }
+    { params }: { params: { id: string } }
 ) {
-    const { id } = await context.params
+    const { id } =await params
     console.log("PATCH USER ID:", id)
     const session = await auth()
     console.log("SESSION:", session)
