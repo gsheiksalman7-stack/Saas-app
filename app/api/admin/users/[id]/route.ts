@@ -5,17 +5,11 @@ import { User } from "@/models/User"
 
 export const runtime = "nodejs"
 
-type RouteContext = {
-  params: {
-    id: string
-  }
-}
-
 export async function DELETE(
   req: NextRequest,
-  context: RouteContext
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params
+  const { id } = await params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
@@ -30,9 +24,9 @@ export async function DELETE(
 
 export async function PATCH(
   req: NextRequest,
-  context: RouteContext
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params
+  const { id } = await params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
