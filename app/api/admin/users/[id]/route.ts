@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
@@ -7,10 +7,10 @@ export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  _req: Request,
+  context: any
 ) {
-  const { id } = params
+  const { id } = context.params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
@@ -24,10 +24,10 @@ export async function DELETE(
 }
 
 export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  context: any
 ) {
-  const { id } = params
+  const { id } = context.params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
