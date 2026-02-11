@@ -7,7 +7,7 @@ export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
 export async function DELETE(req: Request, context: any) {
-  const { id } = context.params
+  const { id } = await context.params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
@@ -21,7 +21,7 @@ export async function DELETE(req: Request, context: any) {
 }
 
 export async function PATCH(req: Request, context: any) {
-  const { id } = context.params
+  const { id } = await context.params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {

@@ -6,9 +6,8 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 
-type Role = 'user' | 'admin'
-
 export const authOptions: NextAuthConfig = {
+    debug: true,
     providers: [
         Credentials({
             name: 'credentials',
@@ -19,18 +18,36 @@ export const authOptions: NextAuthConfig = {
             async authorize(credentials) {
                 console.log('CREDENTIALS:', credentials)
 
-                const email = credentials?.email?.toString().trim().toLowerCase()
-                const password = credentials?.password?.toString()
+                const email =
+                    typeof credentials?.email === "string"
+                        ? credentials.email.trim().toLowerCase()
+                        : ""
+
+                const password =
+                    typeof credentials?.password === "string"
+                        ? credentials.password
+                        : ""
+
 
                 if (!email || !password) {
                     console.log('Missing email or password')
                     return null
                 }
 
-                await connectDB()
-                console.log('DB connected')
+                try {
+                    await connectDB()
+                } catch (err) {
+                    console.error("DB connection failed", err)
+                    return null
+                }
 
-                const user = await User.findOne({ email })
+                let user
+                try {
+                    user = await User.findOne({ email }).lean()
+                } catch (err) {
+                    console.error("User lookup failed", err)
+                    return null
+                }
                 console.log('USER FOUND:', user)
 
                 if (!user) {
@@ -38,6 +55,10 @@ export const authOptions: NextAuthConfig = {
                     return null
                 }
 
+                if (!user.password || typeof user.password !== "string") {
+                    console.log("User has no password (OAuth user)")
+                    return null
+                }
 
                 const isValid = await bcrypt.compare(password, user.password)
                 console.log('PASSWORD VALUE:', isValid)
@@ -88,22 +109,33 @@ export const authOptions: NextAuthConfig = {
                 console.error("OAuth login failed: email not found");
                 return false; // still block if email truly missing
             }
+            await connectDB()
 
-            await connectDB();
+            let dbUser
+            try {
+                dbUser = await User.findOne({ email })
+            } catch (err) {
+                console.error("User lookup failed", err)
+                return false
+            }
 
-            const existingUser = await User.findOne({ email });
 
-            if (!existingUser) {
-                await User.create({
+            if (!dbUser) {
+                dbUser = await User.create({
                     name: user.name,
                     email,
                     image: user.image || "",
                     role: "user",
-                    provider: account?.provider, // google or github
-                });
+                    provider: account?.provider,
+                })
             }
 
-            return true;
+            // 👇 ADD THESE 3 LINES (VERY IMPORTANT)
+            ; (user as any).id = dbUser._id.toString()
+                ; (user as any).role = dbUser.role
+                ; (user as any).image = dbUser.image
+
+            return true
         },
 
         async jwt({ token, user, trigger, session }) {
@@ -114,16 +146,11 @@ export const authOptions: NextAuthConfig = {
             //     token.name = user.name
             // }
 
-            if (user?.email) {
-                await connectDB()
-                const dbUser = await User.findOne({ email: user.email });
-
-                if (dbUser) {
-                    token.id = dbUser._id.toString();
-                    token.role = dbUser.role;
-                    token.image = dbUser.image;
-                    token.name = dbUser.name;
-                }
+            if (user) {
+                token.id = (user as any).id
+                token.role = (user as any).role
+                token.image = user.image
+                token.name = user.name
             }
 
             if (trigger === "update" && session) {
@@ -148,7 +175,7 @@ export const authOptions: NextAuthConfig = {
             return session
         }
     },
+    secret: process.env.NEXTAUTH_SECRET,
 }
 
-
-export const { auth, handlers } = NextAuth(authOptions)
+export const { handlers, auth } = NextAuth(authOptions)
