@@ -5,45 +5,44 @@ import { User } from "@/models/User"
 
 export const runtime = "nodejs"
 
+type RouteContext = {
+  params: {
+    id: string
+  }
+}
+
 export async function DELETE(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+  req: NextRequest,
+  context: RouteContext
 ) {
-    const { id } = await params
-    console.log("DELETE USER ID:", id)
-    const session = await auth()
-    console.log("SESSION:", session)
-    if (!session || session.user.role !== "admin") {
-        console.log("UNAUTHORIZED DELETE")
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
-    }
+  const { id } = await context.params
 
-    await connectDB()
-    const result = await User.findByIdAndDelete(id)
-    console.log("DELETE RESULT:", result)
+  const session = await auth()
+  if (!session || session.user.role !== "admin") {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+  }
 
-    return NextResponse.json({ success: true })
+  await connectDB()
+  await User.findByIdAndDelete(id)
+
+  return NextResponse.json({ success: true })
 }
 
 export async function PATCH(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+  req: NextRequest,
+  context: RouteContext
 ) {
-    const { id } = await params
-    console.log("PATCH USER ID:", id)
-    const session = await auth()
-    console.log("SESSION:", session)
-    if (!session || session.user.role !== "admin") {
-        console.log("UNAUTHORIZED PATCH")
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
-    }
+  const { id } = await context.params
 
-    const { role } = await req.json()
-    console.log("BODY:", role)
+  const session = await auth()
+  if (!session || session.user.role !== "admin") {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+  }
 
-    await connectDB()
-    const result = await User.findByIdAndUpdate(id, { role })
-    console.log("PATCH RESULT:", result)
+  const { role } = await req.json()
 
-    return NextResponse.json({ success: true })
+  await connectDB()
+  await User.findByIdAndUpdate(id, { role })
+
+  return NextResponse.json({ success: true })
 }
