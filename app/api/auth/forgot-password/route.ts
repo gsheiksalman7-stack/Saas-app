@@ -6,6 +6,7 @@ import { User } from "@/models/User"
 import { getTransporter } from "@/lib/mail"
 
 export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
   try {
