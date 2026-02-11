@@ -4,12 +4,13 @@ import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
 
 export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
+  const { id } = params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
@@ -24,9 +25,9 @@ export async function DELETE(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
+  const { id } = params
 
   const session = await auth()
   if (!session || session.user.role !== "admin") {
