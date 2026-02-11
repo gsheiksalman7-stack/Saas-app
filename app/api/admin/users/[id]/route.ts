@@ -6,10 +6,7 @@ import { User } from "@/models/User"
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
-export async function DELETE(
-  _req: Request,
-  context: any
-) {
+export async function DELETE(req: Request, context: any) {
   const { id } = context.params
 
   const session = await auth()
@@ -23,10 +20,7 @@ export async function DELETE(
   return NextResponse.json({ success: true })
 }
 
-export async function PATCH(
-  req: Request,
-  context: any
-) {
+export async function PATCH(req: Request, context: any) {
   const { id } = context.params
 
   const session = await auth()
