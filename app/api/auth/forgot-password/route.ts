@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import crypto from "crypto"
 import bcrypt from "bcryptjs"
 import { connectDB } from "@/lib/db"
 import { User } from "@/models/User"
@@ -19,6 +18,9 @@ export async function POST(req: Request) {
         message: "If an account exists, a reset link has been sent.",
       })
     }
+
+    // 🔥 lazy import (CRITICAL)
+    const crypto = await import("crypto")
 
     const token = crypto.randomBytes(32).toString("hex")
     const hashedToken = await bcrypt.hash(token, 10)
