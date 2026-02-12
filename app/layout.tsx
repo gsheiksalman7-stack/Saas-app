@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: IMAGES.APP_LOGO,
+    icon: IMAGES.APP_ICON,
   },
 };
 
