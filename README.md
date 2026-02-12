@@ -31,7 +31,7 @@ TypeScript
 
 Framer Motion (UI animations)
 
-Tailwind CSS (assumed)
+Tailwind CSS
 
 BACKEND
 
