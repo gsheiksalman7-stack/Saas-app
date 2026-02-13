@@ -215,7 +215,7 @@ Implemented CI/CD using GitHub and Vercel for automated builds and deployments.
 
 ✅ Admin Layout with Recharts graph
 
-# FEATURES TO BE ADDED IN FUTURE
+# FEATURES TO BE ADDED SOON...
 
 🔐 Advanced Security
 
